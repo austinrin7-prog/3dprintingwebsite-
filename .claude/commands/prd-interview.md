@@ -3,9 +3,29 @@ Walk me through the PRD creation process section by section as an expert PM inte
 ## Setup
 
 1. Read `framework/PRD_Template.md` to understand all sections and their prompts.
-2. Read `inputs/prd-answers.md` if it exists — this is the resume file. Note which sections already have answers.
+2. Read `inputs/prd-answers.md` if it exists — this is the resume file. Note which sections already have answers. Also read `outputs/user_research.md` if it exists — use it for persona and pain point context during the pre-populate phase.
 3. Identify the first section that has NOT yet been answered.
 4. Read `framework/prd-hints.md` to load the section-specific tips you'll show during the interview.
+
+## Pre-populate phase
+
+Before the manual interview, attempt to auto-draft answers from existing inputs.
+
+1. **Read all inputs files**: Read every file in `inputs/` except `prd-answers.md` and `.gitkeep`. If no research files exist, skip this phase and proceed directly to the manual interview.
+
+2. **Draft answers for each unanswered PRD section**: For each section not yet answered in `prd-answers.md`, analyze the inputs and produce a draft answer if the inputs contain direct, specific evidence.
+   - **Confident draft** (auto-populate): inputs contain named personas, stated pain points, described features, or cited data directly applicable to the section.
+   - **Not confident / skip auto-populate**: section requires a PM decision that cannot be derived from inputs — e.g., tech stack choices, launch timing, pricing, rollback plan, evaluation targets, specific success metric thresholds.
+
+3. **Write confident drafts to `inputs/prd-answers.md`**: Append each auto-drafted answer under its matching section heading, marked with:
+   `_(Auto-populated from inputs — review before finalizing.)_`
+
+4. **Show a pre-populate summary** to the user:
+   - **Sections auto-populated:** [list]
+   - **Sections still needing your input:** [list]
+   Inform the user they can type "revise [section number]" at any time to redo an auto-populated section.
+
+5. **Proceed to manual interview ONLY for sections that were not confidently auto-populated.**
 
 ## Interview behavior
 

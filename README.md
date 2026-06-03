@@ -5,15 +5,15 @@ An agentic pipeline built on Claude Code that turns raw research and stakeholder
 ## How it works
 
 ```
-inputs/          →   /research-sync   →   framework/user_research.md
+inputs/          →   /research-sync   →   outputs/user_research.md
                           ↓
                     /prd-interview    →   inputs/prd-answers.md
                           ↓
-                   /update-artifacts  →   framework/mockups.html
-                                          framework/reusable_design_system.html
+                   /update-artifacts  →   outputs/mockups.html
+                                          outputs/reusable_design_system.html
                           ↓
-                    /generate-prd     →   outputs/prd.md
-                                          outputs/prd.html
+                    /generate-prd     →   final_deliverables/prd.md
+                                          final_deliverables/prd.html
 ```
 
 Drop your raw research into `inputs/`, run the four commands in order, and get a complete PRD at the end.
@@ -30,7 +30,7 @@ Accepted formats: interview transcripts, survey exports, problem briefs, competi
 /research-sync
 ```
 
-Reads all files in `inputs/` (except `prd-answers.md`) and rewrites `framework/user_research.md` with structured findings.
+Reads all files in `inputs/` (except `prd-answers.md`) and writes `outputs/user_research.md` with structured findings. Original `framework/user_research.md` is used as a template and is never overwritten.
 
 **3. Run the PRD interview**
 
@@ -38,7 +38,7 @@ Reads all files in `inputs/` (except `prd-answers.md`) and rewrites `framework/u
 /prd-interview
 ```
 
-Guided Q&A through all PRD sections. Each section shows practical hints to help you answer well. Type `pause` to stop and resume later; type `skip` to defer a section.
+First scans all `inputs/` files and auto-drafts answers for any PRD sections that can be answered from existing data. Then runs guided Q&A for remaining sections. Each section shows practical hints to help you answer well. Type `pause` to stop and resume later; type `skip` to defer a section.
 
 **4. Refresh HTML artifacts**
 
@@ -46,7 +46,7 @@ Guided Q&A through all PRD sections. Each section shows practical hints to help 
 /update-artifacts
 ```
 
-Rewrites `framework/mockups.html` and `framework/reusable_design_system.html` with real product content from your research and answers. Edit `framework/data_flow.html` manually to match your actual tech stack.
+Writes `outputs/mockups.html` and `outputs/reusable_design_system.html` with real product content from your research and answers. Original `framework/*.html` files are never overwritten. Edit `outputs/data_flow.html` (or ask Claude) to match your actual tech stack after completing section 3.3.
 
 **5. Generate the final PRD**
 
@@ -54,20 +54,21 @@ Rewrites `framework/mockups.html` and `framework/reusable_design_system.html` wi
 /generate-prd
 ```
 
-Assembles everything into `outputs/prd.md` (descriptive) and `outputs/prd.html` (interactive with embedded design artifacts).
+Assembles everything into `final_deliverables/prd.md` (descriptive) and `final_deliverables/prd.html` (interactive with embedded design artifacts).
 
 ## Directory structure
 
 ```
 inputs/                          # Raw research files you bring in
-outputs/                         # Final deliverables (prd.md, prd.html)
-framework/
+outputs/                         # Populated working files (user_research.md, HTML artifacts)
+final_deliverables/              # Final PRD only (prd.md, prd.html)
+framework/                       # Read-only originals — never overwritten by any command
   PRD_Template.md                # Structured template (4 sections, 12 sub-sections)
   prd-hints.md                   # Section-specific tips shown during /prd-interview
-  user_research.md               # Synthesized research (written by /research-sync)
-  mockups.html                   # Key flows & wireframes artifact
-  reusable_design_system.html    # Design system artifact
-  data_flow.html                 # Tech infrastructure diagram (edit manually)
+  user_research.md               # Blank user research template
+  mockups.html                   # Original mockups template
+  reusable_design_system.html    # Original design system template
+  data_flow.html                 # Original architecture diagram template
 .claude/
   commands/                      # Slash command definitions
   agents/                        # Specialized subagents (user_researcher, engineer, strategist)
