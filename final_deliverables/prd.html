@@ -1,0 +1,224 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PRD - 3D Printed Goods Ecommerce Website</title><style>body{margin:0;background:#f5f7fa;color:#18212f;font-family:Arial,Helvetica,sans-serif;line-height:1.55}main{max-width:1040px;margin:0 auto;background:#fff;padding:32px 24px}h1{font-size:34px;line-height:1.15}h2{margin-top:36px;border-bottom:2px solid #d7dde6;padding-bottom:8px}p,li,td{color:#5c6778}strong,th{color:#18212f}table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:14px}th,td{border:1px solid #d7dde6;padding:10px;text-align:left;vertical-align:top}th{background:#eef3f8}hr{border:0;border-top:1px solid #d7dde6;margin:28px 0}@media(max-width:720px){main{padding:20px 16px}h1{font-size:28px}table{display:block;overflow-x:auto}}</style></head><body><main><h1>PRD: 3D Printed Goods Ecommerce Website</h1>
+<p>| | |</p>
+<p>|---|---|</p>
+<table>
+<tr><th><strong>Owner</strong></th><th>Candy / Store Owner</th></tr>
+<tr><th><strong>Product / Feature</strong></th><th>3D Printed Goods Online Store</th></tr>
+<tr><th><strong>Status</strong></th><th>Draft</th></tr>
+<tr><th><strong>Last Updated</strong></th><th>June 27, 2026</th></tr>
+</table>
+<hr>
+<h1>1. Discovery - Problem &amp; Context</h1>
+<h2>1.1 Problem &amp; Opportunity</h2>
+<ul>
+<li><strong>Problem:</strong> Small 3D printing sellers often rely on DMs, marketplaces, or scattered social posts to sell products. Buyers cannot easily see available items, compare options, understand print materials, or submit custom requests in a structured way.</li>
+<li><strong>Why it matters (users &amp; business):</strong> Buyers need confidence before ordering physical items, especially custom or made-to-order products. The seller needs fewer repetitive questions, clearer order details, and a professional place to send interested customers.</li>
+<li><strong>Evidence:</strong> Common friction in maker businesses includes unclear pricing, limited product photos, inconsistent custom request details, and manual order coordination through chat.</li>
+<li><strong>Why now:</strong> Affordable 3D printing has made custom physical goods more accessible, but sellers still need a clean ecommerce experience tailored to made-to-order production.</li>
+</ul>
+<h2>1.2 Target Users</h2>
+<table>
+<tr><td>Role</td><td>Buyer or User?</td><td>Goals</td><td>Constraints</td></tr>
+</table>
+<p>|---|---|---|---|</p>
+<table>
+<tr><td>Hobby buyer / gift shopper</td><td>Buyer</td><td>Find unique printed items, customize color or size, buy quickly</td><td>Needs trust, clear photos, shipping dates, and simple checkout</td></tr>
+<tr><td>Practical problem solver</td><td>Buyer</td><td>Order replacement parts, organizers, brackets, or custom utility prints</td><td>Needs dimensions, material strength notes, and custom upload/contact flow</td></tr>
+<tr><td>Store owner / maker</td><td>User</td><td>List products, manage orders, collect custom request details</td><td>Limited time, likely solo operator, needs simple admin tools</td></tr>
+</table>
+<h2>1.3 Pain Points</h2>
+<ol>
+<li>Buyers do not know what materials, colors, sizes, or finish quality are available without messaging the seller.</li>
+<li>Custom orders require too much back-and-forth because measurements, reference files, and deadlines are not collected upfront.</li>
+<li>Marketplace pages make the seller look less distinct and may not explain made-to-order timelines clearly.</li>
+</ol>
+<h2>1.4 Goals &amp; Non-Goals</h2>
+<p><strong>Goals</strong></p>
+<ol>
+<li>Launch a professional storefront for ready-made and made-to-order 3D printed products.</li>
+<li>Let buyers choose product options such as color, material, size, and quantity before purchase.</li>
+<li>Capture custom print requests with enough detail for the seller to quote or accept the job.</li>
+<li>Reduce manual questions by showing dimensions, production time, shipping expectations, and care notes.</li>
+</ol>
+<p><strong>AI hypothesis:</strong> If we build an AI-assisted custom request helper for buyers, they will submit clearer requests because the assistant can ask for missing details such as dimensions, material use case, color, file upload, and deadline before the seller reviews the request.</p>
+<p><strong>Guardrail metrics</strong></p>
+<ul>
+<li>Checkout completion rate</li>
+<li>Quote request completion rate</li>
+<li>Refund or cancellation rate caused by unclear product expectations</li>
+<li>Average seller time spent clarifying each custom request</li>
+</ul>
+<p><strong>Non-goals</strong></p>
+<ul>
+<li>No full 3D model editor in v1.</li>
+<li>No real-time print farm scheduling in v1.</li>
+<li>No multi-vendor marketplace in v1.</li>
+<li>No international tax and customs automation in v1 unless required before launch.</li>
+</ul>
+<hr>
+<h1>2. Design - Solution Shape</h1>
+<h2>2.1 Solution</h2>
+<p>Build a branded ecommerce website where customers can browse 3D printed products, view detailed product pages, pick options, add items to cart, and check out. The site also includes a custom print request flow that gathers structured information and optionally uses AI to help buyers describe what they need.</p>
+<p>End-to-end user steps:</p>
+<ol>
+<li>Visitor lands on homepage and sees featured products, categories, and value props.</li>
+<li>Visitor browses products by category, use case, price, or material.</li>
+<li>Visitor opens a product page with photos, dimensions, materials, lead time, customization options, and shipping notes.</li>
+<li>Visitor selects color/material/size and adds item to cart.</li>
+<li>Visitor checks out using card payment, shipping address, and order confirmation.</li>
+<li>For custom work, visitor opens the custom request form.</li>
+<li><strong>[AI]</strong> Assistant helps turn a rough request into a structured brief and flags missing details.</li>
+<li>Seller reviews the request and responds with quote, questions, or payment link.</li>
+</ol>
+<p><strong>Alternatives considered &amp; why rejected:</strong></p>
+<ul>
+<li>Etsy-only storefront: fast to start, but weak brand control and less flexible for custom request intake.</li>
+<li>Instagram/DM-only selling: low setup cost, but hard to scale and easy to lose order details.</li>
+<li>Full custom 3D configurator: powerful, but too expensive and complex for v1.</li>
+</ul>
+<h2>2.2 Features</h2>
+<p><strong>MVP</strong></p>
+<ol>
+<li>Homepage with product categories, featured items, trust signals, and clear call to action.</li>
+<li>Product catalog with filtering by category, price, material, color availability, and production time.</li>
+<li>Product detail pages with images, dimensions, material, finish, lead time, care notes, and options.</li>
+<li>Cart and checkout using a payment provider such as Stripe.</li>
+<li>Custom request form with fields for description, dimensions, use case, color/material, quantity, deadline, budget, and optional file upload.</li>
+<li>Basic seller admin for creating products, managing inventory/status, and viewing orders/requests.</li>
+<li>Order confirmation and transactional email notifications.</li>
+</ol>
+<p><strong>Future</strong></p>
+<ul>
+<li>AI-assisted product description generation for the seller.</li>
+<li>AI quote assistant based on filament cost, print time, labor, and shipping.</li>
+<li>Customer accounts and reorder history.</li>
+<li>Gift cards, discount codes, and bundles.</li>
+<li>Reviews and user-submitted photos.</li>
+<li>Upload and preview STL/OBJ files.</li>
+<li>Shipping label generation and production queue.</li>
+</ul>
+<h2>2.3 Key Flows</h2>
+<ul>
+<li>Wireframe / prototype link: TBD.</li>
+<li>Critical screens: Homepage, product catalog, product detail, cart, checkout, custom request form, seller dashboard, order/request detail.</li>
+<li>AI moments: Custom request assistant asks clarifying questions and summarizes the request. Seller can edit all AI-generated summaries before using them. If AI is unavailable, the form still works as a normal structured request form.</li>
+</ul>
+<h2>2.4 Non-Functional Requirements</h2>
+<ul>
+<li><strong>Fallback:</strong> If AI request assistance fails, show the standard custom request form and allow submission without AI.</li>
+<li><strong>Latency target:</strong> Catalog/product pages load in under 2 seconds on a typical broadband connection. AI custom request response should return in under 8 seconds.</li>
+<li><strong>Cost target:</strong> Keep AI assistance below $0.05 per custom request in MVP; revisit after real usage.</li>
+<li><strong>Accessibility / i18n:</strong> WCAG 2.1 AA for core buying flows. English-only at launch, with structure ready for future localization.</li>
+<li><strong>Performance:</strong> Product images should use responsive formats and lazy loading below the first viewport.</li>
+<li><strong>Security:</strong> Payment data handled by PCI-compliant provider; app should not store raw card details.</li>
+</ul>
+<hr>
+<h1>3. Build - AI Implementation</h1>
+<h2>3.1 Model &amp; AI Design</h2>
+<table>
+<tr><td>Component</td><td>Model</td><td>Why</td><td>Rough cost/call</td></tr>
+</table>
+<p>|---|---|---|---|</p>
+<table>
+<tr><td>Custom request assistant</td><td>Small fast LLM, provider TBD</td><td>Needs structured Q&amp;A, not deep reasoning</td><td>Target &lt;$0.05</td></tr>
+<tr><td>Seller description helper</td><td>Small/medium LLM, future</td><td>Converts specs into polished listings</td><td>Target &lt;$0.03</td></tr>
+</table>
+<ul>
+<li><strong>Key capabilities relied on:</strong> Structured output, short-context conversation, form field extraction, safe clarification questions.</li>
+<li><strong>Known limitations &amp; mitigations:</strong> AI may infer incorrect requirements; always show editable summaries and require buyer confirmation before submission.</li>
+<li><strong>Inputs:</strong> Buyer text description, category, dimensions, quantity, material preference, color, deadline, budget, uploaded file metadata.</li>
+<li><strong>Output format:</strong> Structured request summary with missing fields, recommended follow-up questions, and buyer-confirmed requirements.</li>
+<li><strong>RAG / retrieval:</strong> Not required for MVP. Future version may retrieve material capability notes, printer size limits, pricing rules, and store policies.</li>
+</ul>
+<h2>3.2 Tech Stack</h2>
+<table>
+<tr><td>Layer</td><td>Choice</td><td>Why</td></tr>
+</table>
+<p>|---|---|---|</p>
+<table>
+<tr><th><strong>Frontend</strong></th><th>Next.js or similar React framework</th><th>Strong ecommerce UI, SEO, fast product pages</th></tr>
+<tr><th><strong>Backend / API</strong></th><th>Next.js API routes or lightweight Node backend</th><th>Simple full-stack deployment</th></tr>
+<tr><th><strong>Orchestration</strong></th><th>Server-side request handler</th><th>Enough for MVP AI form flow</th></tr>
+<tr><th><strong>Auth</strong></th><th>Clerk, Auth.js, or platform auth</th><th>Seller admin and optional customer accounts</th></tr>
+<tr><th><strong>Database</strong></th><th>PostgreSQL</th><th>Reliable products, orders, options, requests</th></tr>
+<tr><th><strong>Vector store</strong></th><th>None for MVP</th><th>Not needed until policy/material retrieval is added</th></tr>
+<tr><th><strong>Model provider</strong></th><th>OpenAI or equivalent</th><th>Structured outputs and dependable assistant behavior</th></tr>
+<tr><th><strong>Payments</strong></th><th>Stripe</th><th>Checkout, payment links, tax/shipping support</th></tr>
+<tr><th><strong>Hosting</strong></th><th>Vercel, Render, or Railway</th><th>Fast deployment for small business storefront</th></tr>
+<tr><th><strong>Storage</strong></th><th>S3-compatible object storage</th><th>Product images and custom uploaded files</th></tr>
+<tr><th><strong>Observability</strong></th><th>Basic logs plus error tracking</th><th>Catch checkout, order, and AI failures</th></tr>
+</table>
+<p><strong>Key constraints:</strong> Must be easy for a solo seller to operate; checkout and custom requests must work even if AI is disabled; product pages should be SEO-friendly.</p>
+<h2>3.3 Evaluation</h2>
+<table>
+<tr><td>Dimension</td><td>How measured</td><td>Target</td></tr>
+</table>
+<p>|---|---|---|</p>
+<table>
+<tr><td>Request completeness</td><td>Percentage of custom requests with dimensions/use case/material/deadline filled</td><td>&gt;80% in alpha</td></tr>
+<tr><td>Relevance</td><td>Human review of AI-generated clarification questions</td><td>&gt;85% useful</td></tr>
+<tr><td>Hallucination rate</td><td>AI suggests impossible material/process or invents specs</td><td>&lt;5% after review</td></tr>
+<tr><td>Latency</td><td>Time from custom prompt submit to assistant response</td><td>p95 &lt;8 seconds</td></tr>
+<tr><td>Cost</td><td>Model cost per custom request</td><td>&lt;$0.05</td></tr>
+</table>
+<ul>
+<li><strong>Test cases:</strong> Simple gift request, replacement part with dimensions, vague request, impossible size, missing deadline, file upload with sparse description, urgent request, out-of-scope unsafe item.</li>
+<li><strong>Method:</strong> Human spot-check during alpha; automated regression cases for structured extraction once prompts stabilize.</li>
+</ul>
+<hr>
+<h1>4. Launch - Deploy &amp; Operate</h1>
+<h2>4.1 Launch Plan</h2>
+<table>
+<tr><td>Phase</td><td>Audience</td><td>Goal</td><td>Exit criteria</td><td>Timing</td></tr>
+</table>
+<p>|---|---|---|---|---|</p>
+<table>
+<tr><td>Alpha</td><td>Store owner and trusted friends</td><td>Validate catalog, checkout, and request flow</td><td>10 test orders/requests completed with no critical issues</td><td>Week 1-2</td></tr>
+<tr><td>Closed pilot</td><td>Local buyers or social followers</td><td>Validate real buying behavior and request quality</td><td>20 real users, 5 paid orders, seller can fulfill without manual confusion</td><td>Week 3-4</td></tr>
+<tr><td>GA</td><td>Public visitors</td><td>Start selling publicly</td><td>Payment, shipping, email, and admin flows stable</td><td>Week 5+</td></tr>
+</table>
+<p><strong>Rollback plan:</strong> Disable AI assistant first if it causes bad requests. If checkout has issues, switch products to inquiry-only mode and keep catalog visible while payment is fixed.</p>
+<h2>4.2 Success Metrics</h2>
+<table>
+<tr><td>Layer</td><td>Metric</td><td>Target</td><td>Source</td></tr>
+</table>
+<p>|---|---|---|---|</p>
+<table>
+<tr><th><strong>North star</strong></th><th>Paid orders per month</th><th>25+ within 90 days of launch</th><th>Orders database / Stripe</th></tr>
+<tr><th><strong>User</strong></th><th>Product detail to cart conversion</th><th>8%+</th><th>Analytics</th></tr>
+<tr><th><strong>Business</strong></th><th>Revenue from storefront</th><th>$500+ monthly by month 3</th><th>Stripe / accounting</th></tr>
+<tr><th><strong>AI quality</strong></th><th>Custom requests requiring no follow-up</th><th>50%+ by month 2</th><th>Seller review</th></tr>
+<tr><th><strong>Guardrails</strong></th><th>Refunds due to unclear expectations</th><th>&lt;3% of orders</th><th>Seller admin</th></tr>
+</table>
+<h2>4.3 Risks &amp; Legal</h2>
+<ul>
+<li><strong>Top risks &amp; mitigations:</strong></li>
+</ul>
+<p>  - Product expectation mismatch: include dimensions, material, photos, lead times, and care notes on every product page.</p>
+<p>  - Custom print scope creep: require seller approval and quote before payment for custom requests.</p>
+<p>  - AI creates inaccurate summaries: require buyer confirmation and seller review before fulfillment.</p>
+<p>  - Shipping delays: show production lead time separately from carrier delivery time.</p>
+<ul>
+<li><strong>Data handling:</strong> Store buyer contact, shipping, order, and custom request data securely. Encrypt sensitive data in transit and at rest where supported.</li>
+<li><strong>Model provider terms:</strong> Do not send payment card data to the model. Avoid using buyer data for training unless explicitly permitted by provider settings and privacy policy.</li>
+<li><strong>Regulatory scope:</strong> Standard ecommerce privacy, refund, tax, and shipping requirements. Consider GDPR/CCPA language if selling broadly.</li>
+<li><strong>Content safety:</strong> Add policy for prohibited custom prints, including weapons, illegal items, and infringing copyrighted designs.</li>
+</ul>
+<hr>
+<h1>Appendix</h1>
+<h2>Open Questions</h2>
+<ul>
+<li>What exact products will be sold at launch?</li>
+<li>Will custom requests accept uploaded STL/OBJ files in MVP?</li>
+<li>Will the seller ship nationally, locally, or both?</li>
+<li>What materials and colors are available now?</li>
+<li>What is the target production lead time for common items?</li>
+<li>Are there any prohibited categories the seller wants to explicitly reject?</li>
+</ul>
+<h2>References &amp; Links</h2>
+<ul>
+<li>Wireframes: TBD</li>
+<li>Prototype: TBD</li>
+<li>Master prompt: TBD</li>
+<li>Eval criteria / test set: TBD</li>
+</ul></main></body></html>
