@@ -14,6 +14,7 @@ Open `index.html` in a browser.
 - Demo checkout button
 - Custom print request form with seller-ready summary
 - Simple seller production snapshot
+- Seller inventory manager for adding and removing shop items
 
 ## Next Build Steps
 

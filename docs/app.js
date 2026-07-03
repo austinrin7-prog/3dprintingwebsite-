@@ -1,4 +1,4 @@
-const products = [
+const defaultProducts = [
   {
     id: "desk-stand",
     name: "Modular Desk Stand",
@@ -57,16 +57,33 @@ const products = [
 
 const state = {
   filter: "all",
+  products: loadProducts(),
   cart: JSON.parse(localStorage.getItem("printforge-cart") || "[]")
 };
 
 const grid = document.querySelector("#productGrid");
+const productForm = document.querySelector("#productForm");
+const inventoryList = document.querySelector("#inventoryList");
 const cartCount = document.querySelector("#cartCount");
 const cartTotal = document.querySelector("#cartTotal");
 const dashboardCart = document.querySelector("#dashboardCart");
 const cartItems = document.querySelector("#cartItems");
 const cartDrawer = document.querySelector("#cartDrawer");
 const toast = document.querySelector("#toast");
+
+function loadProducts() {
+  const stored = JSON.parse(localStorage.getItem("printforge-products") || "null");
+  return Array.isArray(stored) && stored.length ? stored : defaultProducts;
+}
+
+function saveProducts() {
+  localStorage.setItem("printforge-products", JSON.stringify(state.products));
+}
+
+function makeProductId(name) {
+  const slug = name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  return `${slug || "product"}-${Date.now().toString(36)}`;
+}
 
 function money(value) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value);
@@ -82,11 +99,15 @@ function productSvg(shape, colors) {
     tray: `<rect x="48" y="58" width="154" height="128" rx="18" fill="${a}"/><path d="M78 58v128M126 58v128M48 118h154" stroke="${c}" stroke-width="12"/><rect x="48" y="58" width="154" height="128" rx="18" fill="none" stroke="${b}" stroke-width="10"/>`,
     mount: `<path d="M68 54h114v132H68z" fill="${a}"/><path d="M88 76h74v36H88z" fill="${c}"/><path d="M88 136h74" stroke="${b}" stroke-width="18" stroke-linecap="round"/><circle cx="86" cy="170" r="8" fill="${c}"/><circle cx="164" cy="170" r="8" fill="${c}"/>`
   };
-  return `<svg viewBox="0 0 250 230" role="img" aria-hidden="true">${drawings[shape]}</svg>`;
+  return `<svg viewBox="0 0 250 230" role="img" aria-hidden="true">${drawings[shape] || drawings.stand}</svg>`;
 }
 
 function renderProducts() {
-  const visible = state.filter === "all" ? products : products.filter(product => product.category === state.filter);
+  const visible = state.filter === "all" ? state.products : state.products.filter(product => product.category === state.filter);
+  if (!visible.length) {
+    grid.innerHTML = `<div class="empty-state">No products in this category yet. Add one from the Studio section.</div>`;
+    return;
+  }
   grid.innerHTML = visible.map(product => `
     <article class="product-card">
       <div class="product-art">${productSvg(product.shape, product.colors)}</div>
@@ -100,6 +121,22 @@ function renderProducts() {
         <button class="add-button" type="button" data-add="${product.id}">Add to cart</button>
       </div>
     </article>
+  `).join("");
+}
+
+function renderInventory() {
+  if (!state.products.length) {
+    inventoryList.innerHTML = `<p class="fine-print">No products yet. Add your first shop item with the form.</p>`;
+    return;
+  }
+  inventoryList.innerHTML = state.products.map(product => `
+    <div class="inventory-item">
+      <div>
+        <strong>${product.name}</strong>
+        <span>${product.category} · ${money(product.price)} · ${product.lead}</span>
+      </div>
+      <button class="remove-button" type="button" data-remove-product="${product.id}">Remove</button>
+    </div>
   `).join("");
 }
 
@@ -132,7 +169,8 @@ function renderCart() {
 }
 
 function addToCart(id) {
-  const product = products.find(item => item.id === id);
+  const product = state.products.find(item => item.id === id);
+  if (!product) return;
   const existing = state.cart.find(item => item.id === id);
   if (existing) {
     existing.quantity += 1;
@@ -148,6 +186,39 @@ function removeFromCart(id) {
   state.cart = state.cart.filter(item => item.id !== id);
   saveCart();
   renderCart();
+}
+
+function addProduct(event) {
+  event.preventDefault();
+  const form = new FormData(event.currentTarget);
+  const product = {
+    id: makeProductId(form.get("name")),
+    name: form.get("name").trim(),
+    category: form.get("category"),
+    price: Number(form.get("price")),
+    lead: form.get("lead").trim(),
+    colors: [form.get("color1"), form.get("color2"), form.get("color3")],
+    shape: form.get("shape")
+  };
+
+  state.products.unshift(product);
+  saveProducts();
+  renderProducts();
+  renderInventory();
+  event.currentTarget.reset();
+  showToast(`${product.name} added to the shop`);
+}
+
+function removeProduct(id) {
+  const product = state.products.find(item => item.id === id);
+  state.products = state.products.filter(item => item.id !== id);
+  state.cart = state.cart.filter(item => item.id !== id);
+  saveProducts();
+  saveCart();
+  renderProducts();
+  renderInventory();
+  renderCart();
+  showToast(`${product ? product.name : "Item"} removed from the shop`);
 }
 
 function showToast(message) {
@@ -174,6 +245,21 @@ grid.addEventListener("click", event => {
 cartItems.addEventListener("click", event => {
   const button = event.target.closest("[data-remove]");
   if (button) removeFromCart(button.dataset.remove);
+});
+
+productForm.addEventListener("submit", addProduct);
+
+inventoryList.addEventListener("click", event => {
+  const button = event.target.closest("[data-remove-product]");
+  if (button) removeProduct(button.dataset.removeProduct);
+});
+
+document.querySelector("#resetProducts").addEventListener("click", () => {
+  state.products = [...defaultProducts];
+  saveProducts();
+  renderProducts();
+  renderInventory();
+  showToast("Demo shop items restored");
 });
 
 document.querySelector("[data-open-cart]").addEventListener("click", () => {
@@ -223,4 +309,5 @@ document.querySelector("#customForm").addEventListener("submit", event => {
 });
 
 renderProducts();
+renderInventory();
 renderCart();

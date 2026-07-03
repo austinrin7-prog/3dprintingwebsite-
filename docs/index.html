@@ -141,6 +141,62 @@
         <div><span class="status review"></span> Router wall mount - quote review</div>
         <div><span class="status packed"></span> Planter set - packed</div>
       </div>
+      <div class="inventory-manager">
+        <section class="panel">
+          <p class="eyebrow">Inventory</p>
+          <h3>Add a shop item</h3>
+          <form id="productForm" class="custom-form">
+            <label>Product name
+              <input name="name" type="text" required placeholder="Dragon keychain">
+            </label>
+            <div class="field-row">
+              <label>Category
+                <select name="category">
+                  <option>Desk</option>
+                  <option>Decor</option>
+                  <option>Utility</option>
+                </select>
+              </label>
+              <label>Price
+                <input name="price" type="number" min="1" step="1" required placeholder="15">
+              </label>
+            </div>
+            <div class="field-row">
+              <label>Lead time
+                <input name="lead" type="text" required placeholder="2-3 days">
+              </label>
+              <label>Preview shape
+                <select name="shape">
+                  <option value="stand">Stand</option>
+                  <option value="planter">Planter</option>
+                  <option value="comb">Cable kit</option>
+                  <option value="riser">Display riser</option>
+                  <option value="tray">Tray</option>
+                  <option value="mount">Wall mount</option>
+                </select>
+              </label>
+            </div>
+            <div class="color-row" aria-label="Product colors">
+              <label>Color 1
+                <input name="color1" type="color" value="#293241">
+              </label>
+              <label>Color 2
+                <input name="color2" type="color" value="#2a9d8f">
+              </label>
+              <label>Color 3
+                <input name="color3" type="color" value="#f2cc8f">
+              </label>
+            </div>
+            <button class="button primary" type="submit">Add item to shop</button>
+          </form>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">Shop items</p>
+          <h3>Remove items</h3>
+          <div id="inventoryList" class="inventory-list" aria-live="polite"></div>
+          <button class="button secondary reset-button" type="button" id="resetProducts">Restore demo items</button>
+        </section>
+      </div>
     </section>
   </main>
 
@@ -148,7 +204,7 @@
     <div class="cart-panel">
       <div class="cart-header">
         <h2>Your cart</h2>
-        <button class="icon-button" type="button" data-close-cart aria-label="Close cart">×</button>
+        <button class="icon-button" type="button" data-close-cart aria-label="Close cart">&times;</button>
       </div>
       <div id="cartItems" class="cart-items"></div>
       <div class="cart-footer">
